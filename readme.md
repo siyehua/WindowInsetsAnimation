@@ -25,7 +25,7 @@ Android Studio 3.6.1， Gradle 5.6.4, Android SDK R
 
 2. 更新 gradle 配置
 
-```
+```groovy
 android {
     compileSdkVersion 'android-R'
     buildToolsVersion "29.0.2"
@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
 
 假设需求仅仅是想获取键盘的高度，不需要实时获取高度变化，可以重写 start() 方法
 
-```
+```kotlin
 val callback = object : WindowInsetsAnimation.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
             override fun onStart(
                 animation: WindowInsetsAnimation,
@@ -196,7 +196,7 @@ and android.view.WindowInsets.Type.TAPPABLE_ELEMENT
 
 在 Android Q 之前，获取状态栏高度通常是通过反射获取。但是有了 WindowInsets 就不用这么麻烦了：
 
-```
+```kotlin
 content.setOnApplyWindowInsetsListener { view, windowInsets ->
     //状态栏
     val statusBars = windowInsets.getInsets(WindowInsets.Type.statusBars())
@@ -210,7 +210,7 @@ content.setOnApplyWindowInsetsListener { view, windowInsets ->
 
 上面代码可以获取导航栏和状态栏的高度，假设要获取隐藏和显示，可以通过：
 
-```
+```kotlin
 //注意：setOnApplyWindowInsetsListener 一设置监听就会回调，此时获取的 navigationBars 是否可见是 false
 //等绘制完成再去获取就是 true，这个稍微比较坑一点
 windowInsets.isVisible(WindowInsets.Type.navigationBars())
@@ -220,7 +220,7 @@ windowInsets.isVisible(WindowInsets.Type.navigationBars())
 
 在 Q 之前，控制导航栏和状态，需要用上各种谜之属性：
 
-```
+```kotlin
 view.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                           View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                           View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -228,7 +228,7 @@ view.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
 
 新版是这样的：
 
-```
+```kotlin
 //对状态栏和键盘也可以同样控制
 content.windowInsetsController?.show(WindowInsets.Type.navigationBars())
 content.windowInsetsController?.hide(WindowInsets.Type.navigationBars())
